@@ -7,10 +7,10 @@ load_dotenv()
 def stream_users():
     try:
         with mysql.connector.connect(
-            host=MYSQL_HOST,
-            database=DB_NAME,
-            user=MYSQL_USER,        
-            password=MYSQL_PASSWORD
+            host=os.getenv("MYSQL_HOST"),
+            database=os.getenv("DB_NAME"),
+            user=os.getenv("MYSQL_USER"),        
+            password=os.getenv("MYSQL_PASSWORD")
         ) as connection:  
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM user_data")
