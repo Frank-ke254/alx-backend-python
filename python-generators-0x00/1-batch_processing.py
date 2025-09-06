@@ -28,3 +28,4 @@ def batch_processing(batch_size):
         for user in user_batch:
             if user and user['age'] > 25:
                 print(user)
+    return
