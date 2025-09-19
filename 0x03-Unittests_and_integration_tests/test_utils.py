@@ -78,6 +78,7 @@ class TestMemoize(unittest.TestCase):
     TestMemoize class contains unit tests for the memoize decorator which enables us verify
     that a method is only executed once.
     """
+    
     def test_memoize(self) -> None:
         """Test that memoize method is only called once."""
         class TestClass:
