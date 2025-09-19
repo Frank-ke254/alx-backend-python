@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-The program contains unit tests for the access_nested_map function
+The program contains unit tests for the 
+access_nested_map function
 defined in the utils module.
 """
 import unittest
@@ -21,16 +22,26 @@ class TestAccessNestedMap(unittest.TestCase):
         ({"a": {"b": 2}}, ("a",), {"b": 2}),
         ({"a": {"b": 2}}, ("a", "b"), 2),
     ])
-    def test_access_nested_map(self, nested_map: dict, path: tuple, expected: object) -> None:
-        """Used to make sure that access_nested_map returns expected results for valid paths."""
+    def test_access_nested_map(
+        self, 
+        nested_map: dict, 
+        path: tuple, 
+        expected: object
+        ) -> None:
+        """Makes sure that access_nested_map returns expected results for valid paths."""
         self.assertEqual(access_nested_map(nested_map, path), expected)
 
     @parameterized.expand([
         ({}, ("a",), "'a'"),
         ({"a": 1}, ("a", "b"), "'b'"),
     ])
-    def test_access_nested_map_exception(self, nested_map: dict, path: tuple, expected_message: str) -> None:
-        """Shows that access_nested_map raises KeyError with the right message for invalid paths."""
+    def test_access_nested_map_exception(
+        self, 
+        nested_map: dict, 
+        path: tuple, 
+        expected_message: str
+        ) -> None:
+        """Shows that access_nested_map raises KeyError for invalid paths."""
         with self.assertRaises(KeyError) as cm:
             access_nested_map(nested_map, path)
         self.assertEqual(str(cm.exception), expected_message)
@@ -39,15 +50,23 @@ class TestAccessNestedMap(unittest.TestCase):
 class TestGetJson(unittest.TestCase):
     """
     The function contains unit tests for the get_json function to verify
-    it retrieves and returns JSON content from a given URL using requests as required.
+    it retrieves and returns JSON content 
+    from a given URL using requests as required.
     """
     
     @parameterized.expand([
         ("http://example.com", {"payload": True}),
         ("http://holberton.io", {"payload": False}),
     ])
-    def test_get_json(self, test_url: str, test_payload: dict) -> None:
-        """Test that get_json returns expected payload and calls requests.get correctly."""
+    def test_get_json(
+        self, 
+        test_url: str, 
+        test_payload: dict
+        ) -> None:
+        """
+        Test that get_json returns expected payload 
+        and calls requests.get correctly.
+        """
         mock_response = Mock()
         mock_response.json.return_value = test_payload
 
@@ -59,13 +78,14 @@ class TestGetJson(unittest.TestCase):
 
 class TestMemoize(unittest.TestCase):
     """
-    TestMemoize class contains unit tests for the memoize decorator which enables us verify
+    TestMemoize class contains unit tests for the memoize decorator
+    which enables us verify
     that a method is only executed once.
     """
     
     def test_memoize(self) -> None:
         """Test that memoize method is only called once."""
-        
+
         class TestClass:
             def a_method(self) -> int:
                 return 42
