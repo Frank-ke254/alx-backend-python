@@ -65,6 +65,7 @@ class TestMemoize(unittest.TestCase):
     
     def test_memoize(self) -> None:
         """Test that memoize method is only called once."""
+        
         class TestClass:
             def a_method(self) -> int:
                 return 42
