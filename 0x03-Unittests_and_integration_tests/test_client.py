@@ -41,7 +41,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         #     else:
         #         mock_response.json.return_value = {}
         #     return mock_response
-        
+
     def side_effect(url, *args, **kwargs):
         mock_response = Mock()
         if url.endswith(f"/orgs/{cls.org_payload.get('login', '')}"):
