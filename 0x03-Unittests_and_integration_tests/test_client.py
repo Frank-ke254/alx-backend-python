@@ -57,23 +57,19 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         Test test_public_repos function
         returns the expected repos list.
         """
-        client = GithubOrgClient(self.org_payload["login"])
+        login = self.org_payload.get("login", "google")
+        client = GithubOrgClient(login)
         result = client.public_repos()
-        self.assertEqual(
-            client.public_repos(),
-            self.expected_repos
-        )
+        self.assertEqual(result, self.expected_repos)
 
     def test_public_repos_with_license(self):
         """
         Test helps by filtering repos using license key.
         """
-        client = GithubOrgClient(self.org_payload["login"])
+        login = self.org_payload.get("login", "google")
+        client = GithubOrgClient(login)
         result = client.public_repos(license="apache-2.0")
-        self.assertEqual(
-            client.public_repos(license="apache-2.0"),
-            self.apache2_repos,
-        )
+        self.assertEqual(result, self.apache2_repos)
 
 
 class TestGithubOrgClient(unittest.TestCase):
