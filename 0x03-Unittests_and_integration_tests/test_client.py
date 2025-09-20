@@ -43,6 +43,10 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         #     return mock_response
 
     def side_effect(url, *args, **kwargs):
+        """
+        Test test_public_repos function
+        returns the expected repos list.
+        """
         mock_response = Mock()
         if url.endswith(f"/orgs/{cls.org_payload.get('login', '')}"):
             mock_response.json.return_value = cls.org_payload
