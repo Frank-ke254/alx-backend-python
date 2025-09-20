@@ -11,7 +11,7 @@ from fixtures import TEST_PAYLOAD
 
 
 @parameterized_class(
-    ("org_payload", "repos_payload"),
+    ("org_payload", "repos_payload", "expected_repos", "apache2_repos"),
     TEST_PAYLOAD
 )
 class TestIntegrationGithubOrgClient(unittest.TestCase):
@@ -27,7 +27,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         external calls are able to
         return controlled fixture payloads.
         """
-        cls.get_patcher = patch("client.requests.get")
+        cls.get_patcher = patch("requests.get")
         mock_get = cls.get_patcher.start()
 
         def side_effect(url, *args, **kwargs):
