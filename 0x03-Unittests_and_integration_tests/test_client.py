@@ -55,6 +55,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         returns the expected repos list.
         """
         client = GithubOrgClient(self.org_payload["login"])
+        result = client.public_repos()
         self.assertEqual(
             client.public_repos(),
             self.expected_repos
@@ -65,6 +66,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         Test helps by filtering repos using license key.
         """
         client = GithubOrgClient(self.org_payload["login"])
+        result = client.public_repos(license="apache-2.0")
         self.assertEqual(
             client.public_repos(license="apache-2.0"),
             self.apache2_repos,
