@@ -54,7 +54,7 @@ class TestGithubOrgClient(unittest.TestCase):
     @patch("client.get_json")
     def test_public_repos(self, mock_get_json) -> None:
         """
-        Test that public_repos returns expected
+        Test that the function public_repos returns expected
         list of repos and calls helpers once.
         """
         test_payload = [
