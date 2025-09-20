@@ -5,7 +5,8 @@ class defined in client.py
 """
 import unittest
 from unittest.mock import patch, PropertyMock, Mock
-from parameterized import parameterized, parameterized_class
+from parameterized import parameterized
+from parameterized import parameterized_class
 from client import GithubOrgClient
 from fixtures import org_payload, repos_payload, expected_repos, apache2_repos
 
@@ -102,7 +103,7 @@ class TestGithubOrgClient(unittest.TestCase):
     ("org_payload", "repos_payload", "expected_repos", "apache2_repos"),
     [
         (org_payload, repos_payload, expected_repos, apache2_repos),
-    ],
+    ]
 )
 class TestIntegrationGithubOrgClient(unittest.TestCase):
     """
