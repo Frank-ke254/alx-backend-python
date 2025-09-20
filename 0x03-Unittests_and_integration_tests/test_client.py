@@ -24,7 +24,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         """
-        Set up class mock for requests.get so that
+        Test class mock for requests.get so that
         external calls are able to
         return controlled fixture payloads.
         """
@@ -46,14 +46,14 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     @classmethod
     def tearDownClass(cls) -> None:
         """
-        Halts the requests.get patcher restore
+        Stpos the requests.get patcher and restores
         the original requests.get behavior.
         """
         cls.get_patcher.stop()
 
     def test_public_repos(self):
         """
-        Check that test_public_repos function
+        Test test_public_repos function
         returns the expected repos list.
         """
         client = GithubOrgClient(self.org_payload["login"])
