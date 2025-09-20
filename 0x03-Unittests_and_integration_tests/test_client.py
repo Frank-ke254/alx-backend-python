@@ -27,7 +27,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         external calls are able to
         return controlled fixture payloads.
         """
-        cls.get_patcher = patch("requests.get")
+        cls.get_patcher = patch("client.requests.get")
         mock_get = cls.get_patcher.start()
 
         def side_effect(url, *args, **kwargs):
