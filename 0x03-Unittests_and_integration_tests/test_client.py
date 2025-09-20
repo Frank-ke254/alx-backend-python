@@ -9,6 +9,7 @@ from parameterized import parameterized_class, parameterized
 from client import GithubOrgClient
 from fixtures import org_payload, repos_payload, expected_repos, apache2_repos
 
+
 @parameterized_class(
     ("org_payload", "repos_payload", "expected_repos", "apache2_repos"),
     [(org_payload, repos_payload, expected_repos, apache2_repos)]
@@ -31,7 +32,8 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
         def side_effect(url, *args, **kwargs):
             mock_response = Mock()
-            if url == f"https://api.github.com/orgs/{cls.org_payload['login']}":
+            if url == f"
+            https://api.github.com/orgs/{cls.org_payload['login']}":
                 mock_response.json.return_value = cls.org_payload
             elif url == cls.org_payload["repos_url"]:
                 mock_response.json.return_value = cls.repos_payload
@@ -152,7 +154,12 @@ class TestGithubOrgClient(unittest.TestCase):
         ({"license": {"key": "my_license"}}, "my_license", True),
         ({"license": {"key": "other_license"}}, "my_license", False),
     ])
-    def test_has_license(self, repo: dict, license_key: str, expected: bool) -> None:
+    def test_has_license(
+        self,
+        repo: dict,
+        license_key: str,
+        expected: bool
+    ) -> None:
         """
         Test that the function test_has_license
         correctly checks if the repo has
