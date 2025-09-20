@@ -32,7 +32,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
         def side_effect(url, *args, **kwargs):
             mock_response = Mock()
-            if url == f"https://api.github.com/orgs/{cls.org_payload['login'}": 
+            if url == f"https://api.github.com/orgs/{cls.org_payload['login']}": 
                 mock_response.json.return_value = cls.org_payload
             elif url == cls.org_payload["repos_url"]:
                 mock_response.json.return_value = cls.repos_payload
