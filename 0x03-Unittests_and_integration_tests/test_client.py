@@ -122,7 +122,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         cls.get_patcher = patch("requests.get")
         mock_get = cls.get_patcher.start()
 
-        def side_effect(url):
+        def side_effect(url, *args, **kwargs):
             mock_response = Mock()
             if url == f"https://api.github.com/orgs/{cls.org_payload['login']}":
                 mock_response.json.return_value = cls.org_payload
@@ -154,7 +154,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
     def test_public_repos_with_license(self):
         """
-        Functions helps by filtering repos using license key.
+        Test helps by filtering repos using license key.
         """
         client = GithubOrgClient(self.org_payload["login"])
         self.assertEqual(
