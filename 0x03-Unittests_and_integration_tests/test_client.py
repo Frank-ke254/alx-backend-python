@@ -36,7 +36,9 @@ class TestGithubOrgClient(unittest.TestCase):
         self.assertEqual(result, test_payload)
 
     def test_public_repos_url(self) -> None:
-        test_payload = {"repos_url": "https://api.github.com/orgs/google/repos"}
+        test_payload = {
+            "repos_url": "https://api.github.com/orgs/google/repos"
+        }
 
         with patch.object(
             GithubOrgClient,
@@ -77,6 +79,7 @@ class TestGithubOrgClient(unittest.TestCase):
         mock_get_json.assert_called_once_with(
             "https://api.github.com/orgs/google/repos"
         )
+
 
 if __name__ == "__main__":
     unittest.main()
