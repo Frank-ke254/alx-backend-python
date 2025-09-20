@@ -137,7 +137,8 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     @classmethod
     def tearDownClass(cls) -> None:
         """
-        Halts the requests.get patcher.
+        Halts the requests.get patcher restore
+        the original requests.get behavior.
         """
         cls.get_patcher.stop()
 
