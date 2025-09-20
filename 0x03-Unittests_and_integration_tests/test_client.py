@@ -4,7 +4,7 @@ Unit tests for the GithubOrgClient
 class defined in client.py
 """
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, PropertyMock
 from parameterized import parameterized
 from client import GithubOrgClient
 
