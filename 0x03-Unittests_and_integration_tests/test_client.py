@@ -30,33 +30,37 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         cls.get_patcher = patch("requests.get")
         mock_get = cls.get_patcher.start()
 
+        def side_effect(url, *args, **kwargs):
+            """
+            Side effect function to return mock responses
+            based on the URL.
+            """
+            mock_response = Mock()
+            if url == (
+                f"https://api.github.com/orgs/{cls.org_payload['login']}"
+            ):
+                mock_response.json.return_value = cls.org_payload
+            elif url == cls.org_payload["repos_url"]:
+                mock_response.json.return_value = cls.repos_payload
+            else:
+                mock_response.json.return_value = {}
+            return mock_response
+
         # def side_effect(url, *args, **kwargs):
+        #     """
+        #     Test test_public_repos function
+        #     returns the expected repos list.
+        #     """
         #     mock_response = Mock()
-        #     if url == (
-        #         f"https://api.github.com/orgs/{cls.org_payload['login']}"
-        #     ):
+        #     if url.endswith(f"/orgs/{cls.org_payload.get('login', '')}"):
         #         mock_response.json.return_value = cls.org_payload
-        #     elif url == cls.org_payload["repos_url"]:
+        #     elif url == cls.org_payload.get("repos_url"):
         #         mock_response.json.return_value = cls.repos_payload
         #     else:
         #         mock_response.json.return_value = {}
         #     return mock_response
-
-    def side_effect(url, *args, **kwargs):
-        """
-        Test test_public_repos function
-        returns the expected repos list.
-        """
-        mock_response = Mock()
-        if url.endswith(f"/orgs/{cls.org_payload.get('login', '')}"):
-            mock_response.json.return_value = cls.org_payload
-        elif url == cls.org_payload.get("repos_url"):
-            mock_response.json.return_value = cls.repos_payload
-        else:
-            mock_response.json.return_value = {}
-        return mock_response
-
-        mock_get.side_effect = side_effect
+    
+            mock_get.side_effect = side_effect
 
     @classmethod
     def tearDownClass(cls) -> None:
