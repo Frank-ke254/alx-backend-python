@@ -88,7 +88,10 @@ class TestGithubOrgClient(unittest.TestCase):
         ({"license": {"key": "my_license"}}, "my_license", True),
         ({"license": {"key": "other_license"}}, "my_license", False),
     ])
-    def test_has_license(self, repo: dict, license_key: str, expected: bool) -> None:
+    def test_has_license(self,
+                         repo: dict,
+                         license_key: str,
+                         expected: bool) -> None:
         """
         Test that the function test_has_license
         correctly checks if the repo has
