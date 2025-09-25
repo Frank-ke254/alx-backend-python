@@ -3,10 +3,13 @@ from rest_framework import permissions
 from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
 from .models import Conversation, Message, User
 from .permissions import IsMessageOwner, IsConversationParticipant
 from .serializers import ConversationSerializer, MessageSerializer
+from .filters import MessageFilter
+from .pagination import MessagePagination
 
 
 class ConversationViewSet(viewsets.ModelViewSet):
@@ -42,7 +45,9 @@ class MessageViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated, IsMessageOwner]
     queryset = Message.objects.all().select_related("sender", "conversation")
     serializer_class = MessageSerializer
-    filter_backends = [filters.SearchFilter]
+    pagination_class = MessagePagination
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    filterset_class = MessageFilter 
     search_fields = ["participants__email"]
 
     def create(self, request, *args, **kwargs):
@@ -71,7 +76,8 @@ class MessageViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         user = self.request.user
-        return Message.objects.filter(sender=user) | Message.objects.filter(receiver=user)
+        return Message.objects.filter(conversation__participants=user)
+
 
     def perform_create(self, serializer):
         conversation = serializer.validated_data["conversation"]
