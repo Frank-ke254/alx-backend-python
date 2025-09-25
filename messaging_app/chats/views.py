@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework import permissions
 from rest_framework import filters
 from rest_framework.response import Response
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 from .models import Conversation, Message, User
@@ -73,4 +74,10 @@ class MessageViewSet(viewsets.ModelViewSet):
         return Message.objects.filter(sender=user) | Message.objects.filter(receiver=user)
 
     def perform_create(self, serializer):
+        serializer.save(sender=self.request.user)
+    
+    def perform_create(self, serializer):
+        conversation = serializer.validated_data["conversation"]
+        if self.request.user not in conversation.participants.all():
+            raise PermissionDenied("You are not a participant of this conversation.")
         serializer.save(sender=self.request.user)

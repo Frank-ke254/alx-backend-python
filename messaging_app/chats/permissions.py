@@ -1,10 +1,25 @@
 from typing import Any
-from rest_framework.permissions import BasePermission
 from rest_framework import permissions
+from .models import Conversation
 from rest_framework.request import Request
 
+class IsParticipantofConversation(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.is_authenticated
+    
+    def has_object_permission(self, request, view, obj):
+        if isinstance(obj, Conversation):
+            return request.user in obj.participants.all()
+        if hasattr(obj, "conversation"):
+            return request.user in obj.conversation.participants.all()
+        return False
+    
 
-class IsMessageOwner(BasePermission):
+
+
+
+
+class IsMessageOwner(permissions):
     def has_permission(self, request: Request, view: Any) -> bool:
         user = getattr(request, "user", None)
         return bool(user and getattr(user, "is_authenticated", False))
@@ -19,7 +34,7 @@ class IsMessageOwner(BasePermission):
         return user == sender or user == receiver
 
 
-class IsConversationParticipant(BasePermission):
+class IsConversationParticipant(permissions):
     def has_permission(self, request: Request, view: Any) -> bool:
         user = getattr(request, "user", None)
         return bool(user and getattr(user, "is_authenticated", False))
