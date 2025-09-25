@@ -4,9 +4,12 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 from .models import Conversation, Message, User
+from .permissions import IsMessageOwner, IsConversationParticipant
 from .serializers import ConversationSerializer, MessageSerializer
 
 class ConversationViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated,
+                          IsConversationParticipant]
     queryset = Conversation.objects.all().prefetch_related("participants", "messages")
     serializer_class = ConversationSerializer
     filter_backends = [filters.SearchFilter]
@@ -34,9 +37,9 @@ class ConversationViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 class MessageViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated, IsMessageOwner]
     queryset = Message.objects.all().select_related("sender", "conversation")
     serializer_class = MessageSerializer
-    permission_classes = [permissions.IsAuthenticated]
     filter_backends = [filters.SearchFilter]
     search_fields = ["participants__email"]
 
