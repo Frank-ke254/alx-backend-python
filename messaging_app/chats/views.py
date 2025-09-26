@@ -3,7 +3,7 @@ from rest_framework import permissions
 from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from rest_framework.filters import DjangoFilterBackend
+from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
 from .models import Conversation, Message, User
 from .permissions import IsMessageOwner, IsConversationParticipant

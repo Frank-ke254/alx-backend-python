@@ -17,13 +17,9 @@ class IsParticipantofConversation(permissions.BasePermission):
         if hasattr(obj, "conversation"):
             return request.user in obj.conversation.participants.all()
         return False
-    
 
 
-
-
-
-class IsMessageOwner(permissions):
+class IsMessageOwner(permissions.BasePermission):
     def has_permission(self, request: Request, view: Any) -> bool:
         user = getattr(request, "user", None)
         return bool(user and getattr(user, "is_authenticated", False))
@@ -38,7 +34,7 @@ class IsMessageOwner(permissions):
         return user == sender or user == receiver
 
 
-class IsConversationParticipant(permissions):
+class IsConversationParticipant(permissions.BasePermission):
     def has_permission(self, request: Request, view: Any) -> bool:
         user = getattr(request, "user", None)
         return bool(user and getattr(user, "is_authenticated", False))
