@@ -3,13 +3,13 @@ from rest_framework import permissions
 from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
 from .models import Conversation, Message, User
 from .permissions import IsMessageOwner, IsConversationParticipant
 from .serializers import ConversationSerializer, MessageSerializer
 from .filters import MessageFilter
-from .pagination import MessagePagination
+from .pagination import MessagePagination                                                                                                                                                                                                                                                                                 
 
 
 class ConversationViewSet(viewsets.ModelViewSet):
