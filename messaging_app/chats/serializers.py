@@ -28,7 +28,7 @@ class MessageSerializer(serializers.ModelSerializer):
     sender_email = serializers.SerializerMethodField()
     class Meta:
         model = Message
-        fields = ["message_id", "sender", "sender_email", "message_body", "sent_at"]
+        fields = ["uuid", "sender", "sender_email", "message_body", "sent_at"]
 
     def get_sender_email(self, obj):
         return obj.sender.email if obj.sender else None
@@ -39,7 +39,7 @@ class ConversationSerializer(serializers.ModelSerializer):
     title = serializers.CharField(required=False, allow_blank=True)
     class Meta:
         model = Conversation
-        fields = ["conversation_id", "participants", "created_at", "messages", "title"]
+        fields = ["uuid", "participants", "created_at", "messages", "title"]
 
     def validate_title(self, value):
         if value and len(value) < 3:
