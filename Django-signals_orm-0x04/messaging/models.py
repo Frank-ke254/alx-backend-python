@@ -16,9 +16,20 @@ class Message(models.Model):
     parent_message = models.ForeignKey(
         "self", on_delete=models.CASCADE, null=True, blank=True, related_name="replies"
     )
+    objects = models.Manager()
+    unread = UnreadMessagesManager()
 
     def __str__(self):
         return f"From {self.sender} to {self.receiver} at {self.timestamp}"
+
+
+class UnreadMessagesManager(models.Manager):
+    def for_user(self, user):
+        return (
+            super().get_queryset()
+            .filter(receiver=user, read=False)
+            .only("id", "sender", "receiver", "content", "timestamp")
+        )
 
 
 class Notification(models.Model):
