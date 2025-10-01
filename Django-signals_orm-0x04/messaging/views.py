@@ -35,5 +35,8 @@ def delete_user(request):
 
 @login_required
 def inbox_view(request):
-    unread_messages = Message.unread.for_user(request.user)
-    return render(request, "messaging/inbox.html", {"messages": unread_messages})
+    unread_qs = Message.unread.unread_for_user(request.user) \
+        .select_related("sender") \
+        .only("id", "sender", "content", "timestamp")
+
+    return render(request, "messaging/inbox.html", {"messages": unread_qs})
