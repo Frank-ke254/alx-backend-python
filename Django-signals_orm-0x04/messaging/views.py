@@ -2,9 +2,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.contrib.auth import logout
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.cache import cache_page
 from .models import Message
 
 @login_required
+@cache_page(60)
 def conversation_view(request, message_id):
     root_message = get_object_or_404(
         Message.objects.select_related("sender", "receiver")
@@ -14,6 +16,13 @@ def conversation_view(request, message_id):
     )
     thread = get_threaded_messages(root_message)
     return render(request, "messaging/conversation.html", {"thread": thread})
+    
+    conversation = Message.objects.filter(
+        sender__in=[request.user.id, user_id],
+        receiver__in=[request.user.id, user_id]
+    ).select_related("sender", "receiver").order_by("timestamp")
+
+    return render(request, "messaging/conversation.html", {"messages": conversation})
 
 def get_threaded_messages(message):
     replies = Message.objects.filter(parent_message=message).select_related("sender", "receiver")
