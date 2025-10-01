@@ -32,3 +32,8 @@ def delete_user(request):
     logout(request)
     user.delete()
     return redirect("home")
+
+@login_required
+def inbox_view(request):
+    unread_messages = Message.unread.for_user(request.user)
+    return render(request, "messaging/inbox.html", {"messages": unread_messages})
