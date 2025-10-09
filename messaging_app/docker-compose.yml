@@ -12,6 +12,8 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQLDB: ${MYSQL_DATABASE}
+      MYSQLUSER: ${MYSQL_USER}
     ports:
       - "3306:3306"
     volumes:
@@ -21,8 +23,8 @@ services:
     build: .
     container_name: messaging_web
     command: >
-      sh -c "python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+      sh -c "python3 manage.py migrate &&
+             python3 manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
     ports:
