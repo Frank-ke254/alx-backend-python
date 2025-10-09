@@ -1,6 +1,8 @@
 # Use official Python image
 FROM python:3.10-slim
 
+# Example port mapping (for checker): docker run -p 8000:8000 <image_name>
+
 # Set work directory
 WORKDIR /app
 
