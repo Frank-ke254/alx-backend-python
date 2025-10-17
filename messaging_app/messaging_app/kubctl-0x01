@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "Scaling deployment to 3 replicas..."
+kubectl scale deployment messaging-app-deployment --replicas=3
+
+sleep 10
+
+echo "Verifying pods..."
+kubectl get pods -l app=messaging-app
+
+SERVICE_PORT=8000
+SERVICE_NAME=messaging-app-service
+NODE_PORT=$(kubectl get service $SERVICE_NAME -o=jsonpath='{.spec.ports[0].nodePort}' 2>/dev/null)
+
+if [ -z "$NODE_PORT" ]; then
+    echo "Service not exposed via NodePort. Use port-forward or expose it manually to test."
+    echo "Example: kubectl port-forward service/$SERVICE_NAME 8000:8000"
+else
+    echo "Performing load test on port $NODE_PORT..."
+    wrk -t4 -c100 -d30s http://localhost:$NODE_PORT/
+fi
+
+echo "Monitoring resource usage..."
+kubectl top pods --use-protocol-buffers
+kubectl top nodes --use-protocol-buffers
